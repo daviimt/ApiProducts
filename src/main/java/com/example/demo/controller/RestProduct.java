@@ -55,7 +55,7 @@ public class RestProduct {
 			return ResponseEntity.notFound().build();
 	}
 
-	// GET Recupera la categoría correspondiente a ese id
+	// GET Recupera todos los productos de una determinada categoría
 	@GetMapping("/categories/{categoryId}/products")
 	public ResponseEntity<?> getCategoryResp(@PathVariable int categoryId) {
 		CategoryDTO category = categoryService.findCategoryByIdModel(categoryId);
