@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Product;
 import com.example.demo.models.CategoryDTO;
 import com.example.demo.models.ProductDTO;
 import com.example.demo.service.CategoryService;
@@ -42,8 +43,14 @@ public class RestProduct {
 
 	// PUT Actualiza un producto
 	@PutMapping("/products/{productId}")
-	public ResponseEntity<?> updateProductNew(@RequestBody ProductDTO product) {
-		return ResponseEntity.ok(productService.addProduct(product));
+	public ResponseEntity<?> updateProductNew(@RequestBody ProductDTO product,@PathVariable int productId) {
+		
+		Product c=productService.findProductById(productId);
+		c.setName(product.getName());
+		c.setDescription(product.getDescription());
+		c.setPrice(product.getPrice());
+		return ResponseEntity.ok(productService.addProduct(productService.transform(c)));
+		
 	}
 
 	// DELETE Elimina una categoría y todos sus productos (categoría correspondiente
