@@ -25,6 +25,10 @@ public class ProductServiceImpl implements ProductService {
 	@Qualifier("categoryService")
 	private CategoryService categoryService;
 
+	@Autowired
+	@Qualifier("productService")
+	private ProductService productService;
+
 	@Override
 	public ProductDTO addProduct(ProductDTO productDTO) {
 		productRepository.save(transform(productDTO));
@@ -75,6 +79,16 @@ public class ProductServiceImpl implements ProductService {
 				.collect(Collectors.toList());
 
 		return listProducts;
+	}
+
+	@Override
+	public boolean deleteProductsByCategoryId(int categoryId) {
+		List<ProductDTO> listProducts = findProductsByCategoryId(categoryId);
+
+		listProducts.stream().map(c -> productService.removeProduct(c.getId()));
+		
+		
+		return true;
 	}
 
 }
