@@ -64,4 +64,10 @@ public class ProductServiceImpl implements ProductService{
 		return modelMapper.map(product, ProductDTO.class);
 	}
 
+	@Override
+	public List<ProductDTO> findProductsByCategoryId(int categoryId) {
+		List<ProductDTO> list= listAllProducts();
+		return null;
+	}
+
 }

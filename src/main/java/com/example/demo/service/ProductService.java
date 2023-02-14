@@ -14,5 +14,5 @@ public interface ProductService {
 	public abstract boolean removeProduct(int id);
 	public abstract Product transform(ProductDTO productDTO);
 	public abstract ProductDTO transform(Product product);
-	
+	public abstract List<ProductDTO> findProductsByCategoryId(int categoryId);
 }

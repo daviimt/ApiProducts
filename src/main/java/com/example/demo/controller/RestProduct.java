@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.models.CategoryDTO;
 import com.example.demo.models.ProductDTO;
+import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
 
 @RestController
@@ -20,7 +24,9 @@ public class RestProduct {
 	@Autowired
 	@Qualifier("productService")
 	private ProductService productService;
-	
+	@Autowired
+	@Qualifier("categoryService")
+	private CategoryService categoryService;
 	
 	//GET Recupera el producto correspondiente a ese id
 	@GetMapping("/products/{productId}")
@@ -50,4 +56,18 @@ public class RestProduct {
 		else
 			return ResponseEntity.notFound().build();
 	}
+	
+	
+	//GET Recupera la categoría correspondiente a ese id
+		@GetMapping("/categories/{categoryId}/products")
+		public ResponseEntity<?> getCategoryResp(@PathVariable int categoryId)
+		{
+			CategoryDTO category=categoryService.findCategoryByIdModel(categoryId);
+			if(category==null)
+				return ResponseEntity.notFound().build();
+			else {
+				List<ProductDTO> list=productService.listAllProducts();
+				return ResponseEntity.ok(list);
+			}
+		}
 }
