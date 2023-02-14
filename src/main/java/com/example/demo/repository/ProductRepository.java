@@ -12,5 +12,6 @@ import com.example.demo.entity.Product;
 @Repository("productRepository")
 public interface ProductRepository  extends JpaRepository <Product, Serializable>{
 	public abstract Product findById(int id);
-	public abstract List<Product> findByIdCategory(int categoryId);
+	public abstract List<Product> findByIdCategory(int idCategory);
+	public abstract List<Product> findByIdCategory(Category category);
 }

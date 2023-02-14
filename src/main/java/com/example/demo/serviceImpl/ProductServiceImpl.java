@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.models.ProductDTO;
 import com.example.demo.repository.ProductRepository;
@@ -71,7 +72,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDTO> findProductsByCategoryId(int categoryId) {
 
-		List<ProductDTO> listProducts = productRepository.findByIdCategory(categoryId).stream().map(c -> transform(c))
+		Category category = categoryService.findCategoryById(categoryId);
+		List<ProductDTO> listProducts = productRepository.findByIdCategory(category).stream().map(c -> transform(c))
 				.collect(Collectors.toList());
 
 		return listProducts;
@@ -80,11 +82,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public boolean deleteProductsByCategoryId(int categoryId) {
 		List<ProductDTO> listProducts = findProductsByCategoryId(categoryId);
-
-		listProducts.stream().map(c -> removeProduct(c.getId()));
 		
+		listProducts.stream().map(c -> removeProduct(c.getId())).collect(Collectors.toList());
 		
 		return true;
 	}
-
 }
