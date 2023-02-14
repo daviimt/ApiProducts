@@ -20,10 +20,6 @@ public class Product {
 	@JoinColumn(name="idCategory")
 	private Category idCategory;
 
-	public Product() {
-		super();
-	}
-
 	public Product(int id, String name, String description, float price, Category idCategory) {
 		super();
 		this.id = id;
@@ -31,6 +27,10 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.idCategory = idCategory;
+	}
+
+	public Product() {
+		super();
 	}
 
 	public int getId() {
@@ -75,9 +75,11 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Products [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
 				+ ", idCategory=" + idCategory + "]";
 	}
+
+	
 	
 
 }
