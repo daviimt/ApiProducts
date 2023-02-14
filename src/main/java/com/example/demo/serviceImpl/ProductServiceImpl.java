@@ -7,18 +7,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.Product;
 import com.example.demo.models.ProductDTO;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
 
 @Service("productService")
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	@Qualifier("productRepository")
 	private ProductRepository productRepository;
-	
+
+	@Autowired
+	@Qualifier("categoryService")
+	private CategoryService categoryService;
+
 	@Override
 	public ProductDTO addProduct(ProductDTO productDTO) {
 		productRepository.save(transform(productDTO));
@@ -27,8 +33,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDTO> listAllProducts() {
-		return productRepository.findAll().stream().
-				map(c->transform(c)).collect(Collectors.toList());
+		return productRepository.findAll().stream().map(c -> transform(c)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -38,17 +43,16 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public ProductDTO findProductByIdModel(int id) {
-		
+
 		return transform(productRepository.findById(id));
 	}
 
 	@Override
 	public boolean removeProduct(int id) {
-		if(productRepository.findById(id)!=null) {
+		if (productRepository.findById(id) != null) {
 			productRepository.deleteById(id);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
@@ -66,8 +70,11 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDTO> findProductsByCategoryId(int categoryId) {
-		List<ProductDTO> list= listAllProducts();
-		return null;
+
+		List<ProductDTO> listProducts = productRepository.findByIdCategory(categoryId).stream().map(c -> transform(c))
+				.collect(Collectors.toList());
+
+		return listProducts;
 	}
 
 }
