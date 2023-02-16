@@ -82,9 +82,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public boolean deleteProductsByCategoryId(int categoryId) {
 		List<ProductDTO> listProducts = findProductsByCategoryId(categoryId);
-		
-		listProducts.stream().map(c -> removeProduct(c.getId())).collect(Collectors.toList());
-		
-		return true;
+		System.out.println(listProducts);
+		if(!listProducts.isEmpty()) {
+			listProducts.stream().map(c -> removeProduct(c.getId())).collect(Collectors.toList());
+			return true;
+		}
+		else
+			return false;
 	}
 }

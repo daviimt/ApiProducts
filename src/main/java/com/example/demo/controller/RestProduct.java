@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Product;
-import com.example.demo.models.CategoryDTO;
 import com.example.demo.models.ProductDTO;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
@@ -34,22 +33,30 @@ public class RestProduct {
 	// GET Recupera el producto correspondiente a ese id
 	@GetMapping("/products/{productId}")
 	public ResponseEntity<?> getProductResp(@PathVariable int productId) {
-		ProductDTO product = productService.findProductByIdModel(productId);
-		if (product == null)
-			return ResponseEntity.notFound().build();
-		else
+		boolean exist = productService.findProductById(productId)!=null;
+		if(exist) {
+			ProductDTO product=productService.findProductByIdModel(productId);
 			return ResponseEntity.ok(product);
+		}
+		else
+			return ResponseEntity.noContent().build();
+
 	}
 
 	// PUT Actualiza un producto
 	@PutMapping("/products/{productId}")
 	public ResponseEntity<?> updateProductNew(@RequestBody ProductDTO product,@PathVariable int productId) {
-		
-		Product c=productService.findProductById(productId);
-		c.setName(product.getName());
-		c.setDescription(product.getDescription());
-		c.setPrice(product.getPrice());
-		return ResponseEntity.ok(productService.addProduct(productService.transform(c)));
+		boolean exist = productService.findProductById(productId)!=null;
+		if(exist) {
+			Product c=productService.findProductById(productId);
+			c.setName(product.getName());
+			c.setDescription(product.getDescription());
+			c.setPrice(product.getPrice());
+			return ResponseEntity.ok(productService.addProduct(productService.transform(c)));
+			}
+		else {
+			return ResponseEntity.noContent().build();
+		}
 		
 	}
 
@@ -61,15 +68,16 @@ public class RestProduct {
 		if (exists)
 			return ResponseEntity.ok().build();
 		else
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 	}
 
 	// GET Recupera todos los productos de una determinada categoría
 	@GetMapping("/categories/{categoryId}/products")
 	public ResponseEntity<?> getProductCategory(@PathVariable int categoryId) {
-		CategoryDTO category = categoryService.findCategoryByIdModel(categoryId);
-		if (category == null)
-			return ResponseEntity.notFound().build();
+		boolean exist = categoryService.findCategoryById(categoryId)==null;
+		if(exist) {
+			return ResponseEntity.noContent().build();
+		}
 		else {
 			List<ProductDTO> list = productService.findProductsByCategoryId(categoryId);
 			return ResponseEntity.ok(list);
@@ -92,7 +100,7 @@ public class RestProduct {
 		if (exists)
 			return ResponseEntity.ok().build();
 		else
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 	}
 	
 	

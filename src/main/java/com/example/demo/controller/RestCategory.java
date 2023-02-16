@@ -29,11 +29,13 @@ public class RestCategory {
 	@GetMapping("/categories/{categoryId}")
 	public ResponseEntity<?> getCategoryResp(@PathVariable int categoryId)
 	{
-		CategoryDTO category=categoryService.findCategoryByIdModel(categoryId);
-		if(category==null)
-			return ResponseEntity.notFound().build();
+		boolean exist = categoryService.findCategoryById(categoryId)!=null;
+		if(exist) {
+			CategoryDTO category=categoryService.findCategoryByIdModel(categoryId);
+			return ResponseEntity.ok(category);
+		}
 		else
-		return ResponseEntity.ok(category);
+			return ResponseEntity.noContent().build();
 	}
 
 	//POST Crea una nueva categoría
@@ -49,10 +51,15 @@ public class RestCategory {
 	@PutMapping("/categories/{categoryId}")
 	public ResponseEntity<?> updateCategoryNew(@RequestBody CategoryDTO category,@PathVariable int categoryId)
 	{
-		Category c=categoryService.findCategoryById(categoryId);
-		c.setName(category.getName());
-		c.setDescription(category.getDescription());
-		return ResponseEntity.ok(categoryService.addCategory(categoryService.transform(c)));
+		boolean exist = categoryService.findCategoryById(categoryId)!=null;
+		if(exist) {
+			Category c=categoryService.findCategoryById(categoryId);
+			c.setName(category.getName());
+			c.setDescription(category.getDescription());
+			return ResponseEntity.ok(categoryService.addCategory(categoryService.transform(c)));
+		}else {
+			return ResponseEntity.noContent().build();
+		}
 	}
 	
 	//DELETE Elimina una categoría y todos sus productos (categoría correspondiente a ese id)
@@ -63,6 +70,6 @@ public class RestCategory {
 		if(exists)
 			return ResponseEntity.ok().build();
 		else
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 	}
 }
