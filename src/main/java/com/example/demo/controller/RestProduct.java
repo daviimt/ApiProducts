@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +41,9 @@ public class RestProduct {
 	@Qualifier("userService")
 	private UserService userService;
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
 	@GetMapping("/user/products")
 	public ResponseEntity<?> getProducts() {
 		boolean exist = productService.listAllProducts()!=null;
@@ -122,10 +129,14 @@ public class RestProduct {
 			return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("user/addFav/{id}")
+	@PostMapping("/user/addFav/{id}")
 	private ResponseEntity<?> addFav(@PathVariable int id) {
-		User user = userService.addFav(id);
-		return ResponseEntity.ok(user.getListFavs());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println(username);
+        User user = userService.addFav(id,username);
+        System.out.println(user.getListFavs());
+		return ResponseEntity.ok().build();
 	}
 	
 }

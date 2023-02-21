@@ -64,10 +64,9 @@ public class UserService implements UserDetailsService {
 		return userRepository.findByUsername(username);
 	}
 
-	public com.example.demo.entity.User addFav(int id) {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		com.example.demo.entity.User u = findUser(userDetails.getUsername());
-
+	public com.example.demo.entity.User addFav(int id,String username) {
+		com.example.demo.entity.User u= findUser(username);
+		
 		Product p = productService.findProductById(id);
 		List<Product> list = u.getListFavs();
 		list.add(p);
