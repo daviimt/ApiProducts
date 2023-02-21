@@ -19,8 +19,11 @@ public class SecurityConfig {
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			http.csrf().disable().addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
 			authorizeHttpRequests().
-			requestMatchers("/api/**").authenticated().
-			anyRequest().permitAll();
+			requestMatchers("api/categories/{categoryId}/product", "api/products/{productId}",
+					"api/categories/{categoryId}/products", "api/categories", "api/categories/{categoryId}").hasAuthority("ROLE_ADMIN").
+			requestMatchers("/register", "").hasAuthority("ROLE_USER").
+//			requestMatchers(/**rutitas nuevas**/).hasAuthority("ROLE_USER").
+			requestMatchers("/login").permitAll();
 			return http.build();
 		}
 	
