@@ -13,7 +13,7 @@ import jakarta.persistence.OneToMany;
 public class User {
 	@Id
 	@GeneratedValue
-	private long id;
+	private int id;
 	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 	@Column(name = "password", nullable = false)
@@ -22,14 +22,13 @@ public class User {
 	private String role;
 	private String token;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy="id")
-	private List<Product> listFavs;
+	private List<Integer> listFavs;
 
 	public User() {
 		super();
 	}
 
-	public User(long id, String username, String password, boolean enabled, String role, String token) {
+	public User(int id, String username, String password, boolean enabled, String role, String token) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -39,8 +38,8 @@ public class User {
 		this.token = token;
 	}
 
-	public User(long id, String username, String password, boolean enabled, String role, String token,
-			List<Product> listFavs) {
+	public User(int id, String username, String password, boolean enabled, String role, String token,
+			List<Integer> listFavs) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -51,11 +50,11 @@ public class User {
 		this.listFavs = listFavs;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -99,11 +98,11 @@ public class User {
 		this.token = token;
 	}
 	
-	public List<Product> getListFavs() {
+	public List<Integer> getListFavs() {
 		return listFavs;
 	}
 
-	public void setListFavs(List<Product> listFavs) {
+	public void setListFavs(List<Integer> listFavs) {
 		this.listFavs = listFavs;
 	}
 

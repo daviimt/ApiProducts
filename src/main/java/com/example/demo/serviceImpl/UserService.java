@@ -1,12 +1,12 @@
 package com.example.demo.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Product;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ProductService;
 
@@ -40,6 +39,7 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder().encode(user.getPassword()));
 		user.setEnabled(true);
 		user.setRole("ROLE_USER");
+		user.setListFavs(new ArrayList());
 		return userRepository.save(user);
 	}
 
@@ -67,9 +67,8 @@ public class UserService implements UserDetailsService {
 	public com.example.demo.entity.User addFav(int id,String username) {
 		com.example.demo.entity.User u= findUser(username);
 		
-		Product p = productService.findProductById(id);
-		List<Product> list = u.getListFavs();
-		list.add(p);
+		List<Integer> list = u.getListFavs();
+		list.add(id);
 		u.setListFavs(list);
 		return userRepository.save(u);
 	}

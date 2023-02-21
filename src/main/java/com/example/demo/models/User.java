@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.demo.entity.Product;
 
 public class User {
-	private long id;
+	private int id;
 	private String username;
 	private String password;
 	private boolean enabled;
@@ -16,7 +16,7 @@ public class User {
 		super();
 	}
 
-	public User(long id, String username, String password, boolean enabled, String role, String token) {
+	public User(int id, String username, String password, boolean enabled, String role, String token) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -26,11 +26,11 @@ public class User {
 		this.token = token;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
