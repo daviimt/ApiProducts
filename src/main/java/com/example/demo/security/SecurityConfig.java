@@ -20,10 +20,10 @@ public class SecurityConfig {
 			http.csrf().disable().addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
 			authorizeHttpRequests().
 			requestMatchers("api/categories/{categoryId}/product", "api/products/{productId}",
-					"api/categories/{categoryId}/products", "api/categories", "api/categories/{categoryId}").hasAuthority("ROLE_ADMIN").
+					 "api/categories", "api/categories/{categoryId}").hasAuthority("ROLE_ADMIN").
 			requestMatchers("/register", "").hasAuthority("ROLE_USER").
 //			requestMatchers(/**rutitas nuevas**/).hasAuthority("ROLE_USER").
-			requestMatchers("/login").permitAll();
+			requestMatchers("/login","api/categories/{categoryId}/products").permitAll();
 			return http.build();
 		}
 	
