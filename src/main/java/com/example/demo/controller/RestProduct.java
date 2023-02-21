@@ -122,9 +122,10 @@ public class RestProduct {
 			return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/addFav/{id}")
-	private User addFav(@RequestParam User user) {
-		return userService.register(user);
+	@PostMapping("user/addFav/{id}")
+	private ResponseEntity<?> addFav(@PathVariable int id) {
+		User user = userService.addFav(id);
+		return ResponseEntity.ok(user.getListFavs());
 	}
 	
 }
