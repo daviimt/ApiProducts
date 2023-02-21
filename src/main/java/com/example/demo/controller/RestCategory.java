@@ -26,7 +26,7 @@ public class RestCategory {
 	private CategoryService categoryService;
 	
 	//GET Recupera la categoría correspondiente a ese id
-	@GetMapping("/categories/{categoryId}")
+	@GetMapping("/admin/categories/{categoryId}")
 	public ResponseEntity<?> getCategoryResp(@PathVariable int categoryId)
 	{
 		boolean exist = categoryService.findCategoryById(categoryId)!=null;
@@ -39,7 +39,7 @@ public class RestCategory {
 	}
 
 	//POST Crea una nueva categoría
-	@PostMapping("/categories")
+	@PostMapping("/admin/categories")
 	public ResponseEntity<?> insertCategoryNew (@RequestBody CategoryDTO category)
 	{
 		categoryService.addCategory(category);
@@ -48,7 +48,7 @@ public class RestCategory {
 	}
 	
 	//PUT Actualiza una categoría
-	@PutMapping("/categories/{categoryId}")
+	@PutMapping("/admin/categories/{categoryId}")
 	public ResponseEntity<?> updateCategoryNew(@RequestBody CategoryDTO category,@PathVariable int categoryId)
 	{
 		boolean exist = categoryService.findCategoryById(categoryId)!=null;
@@ -63,7 +63,7 @@ public class RestCategory {
 	}
 	
 	//DELETE Elimina una categoría y todos sus productos (categoría correspondiente a ese id)
-	@DeleteMapping("/categories/{categoryId}")
+	@DeleteMapping("/admin/categories/{categoryId}")
 	public ResponseEntity<?> deleteCategoryNew(@PathVariable int categoryId)
 	{
 		boolean exists = categoryService.removeCategory(categoryId);

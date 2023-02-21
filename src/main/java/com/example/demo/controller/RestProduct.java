@@ -30,8 +30,20 @@ public class RestProduct {
 	@Qualifier("categoryService")
 	private CategoryService categoryService;
 
+	@GetMapping("/user/products")
+	public ResponseEntity<?> getProducts() {
+		boolean exist = productService.listAllProducts()!=null;
+		if(exist) {
+			List<ProductDTO> product=productService.listAllProducts();
+			return ResponseEntity.ok(product);
+		}
+		else
+			return ResponseEntity.noContent().build();
+
+	}
+	
 	// GET Recupera el producto correspondiente a ese id
-	@GetMapping("/products/{productId}")
+	@GetMapping("/admin/products/{productId}")
 	public ResponseEntity<?> getProductResp(@PathVariable int productId) {
 		boolean exist = productService.findProductById(productId)!=null;
 		if(exist) {
@@ -44,7 +56,7 @@ public class RestProduct {
 	}
 
 	// PUT Actualiza un producto
-	@PutMapping("/products/{productId}")
+	@PutMapping("/admin/products/{productId}")
 	public ResponseEntity<?> updateProductNew(@RequestBody ProductDTO product,@PathVariable int productId) {
 		boolean exist = productService.findProductById(productId)!=null;
 		if(exist) {
@@ -62,7 +74,7 @@ public class RestProduct {
 
 	// DELETE Elimina una categoría y todos sus productos (categoría correspondiente
 	// a ese id)
-	@DeleteMapping("/products/{productId}")
+	@DeleteMapping("/admin/products/{productId}")
 	public ResponseEntity<?> deleteProductNew(@PathVariable int productId) {
 		boolean exists = productService.removeProduct(productId);
 		if (exists)
@@ -72,7 +84,7 @@ public class RestProduct {
 	}
 
 	// GET Recupera todos los productos de una determinada categoría
-	@GetMapping("/categories/{categoryId}/products")
+	@GetMapping("/user/categories/{categoryId}/products")
 	public ResponseEntity<?> getProductCategory(@PathVariable int categoryId) {
 		boolean exist = categoryService.findCategoryById(categoryId)==null;
 		if(exist) {
@@ -85,7 +97,7 @@ public class RestProduct {
 	}
 
 	// POST Crea un nuevo producto para una categoría
-	@PostMapping("/categories/{categoryId}/product")
+	@PostMapping("/admin/categories/{categoryId}/product")
 	public ResponseEntity<?> insertProductCategory(@RequestBody ProductDTO product,@PathVariable int categoryId) {
 		product.setIdCategory(categoryId);
 		productService.addProduct(product);
@@ -94,7 +106,7 @@ public class RestProduct {
 	}
 	
 	// DELETE Elimina todos los productos de una determinada categoría
-	@DeleteMapping("/categories/{categoryId}/products")
+	@DeleteMapping("/admin/categories/{categoryId}/products")
 	public ResponseEntity<?> deleteProductsCategory(@PathVariable int categoryId) {
 		boolean exists = productService.deleteProductsByCategoryId(categoryId);
 		if (exists)

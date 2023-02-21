@@ -1,9 +1,13 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -17,6 +21,9 @@ public class User {
 	private boolean enabled;
 	private String role;
 	private String token;
+	
+	@OneToMany(cascade= CascadeType.ALL, mappedBy="id")
+	private List<Product> listFavs;
 
 	public User() {
 		super();
@@ -30,6 +37,18 @@ public class User {
 		this.enabled = enabled;
 		this.role = role;
 		this.token = token;
+	}
+
+	public User(long id, String username, String password, boolean enabled, String role, String token,
+			List<Product> listFavs) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.role = role;
+		this.token = token;
+		this.listFavs = listFavs;
 	}
 
 	public long getId() {
@@ -79,13 +98,19 @@ public class User {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
+	public List<Product> getListFavs() {
+		return listFavs;
+	}
+
+	public void setListFavs(List<Product> listFavs) {
+		this.listFavs = listFavs;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
 				+ ", role=" + role + ", token=" + token + "]";
 	}
-
-	
 
 }

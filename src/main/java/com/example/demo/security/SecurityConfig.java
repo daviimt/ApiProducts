@@ -16,19 +16,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 	@Bean
-		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-			http.csrf().disable().addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
-			authorizeHttpRequests().
-			requestMatchers("api/categories/{categoryId}/product", "api/products/{productId}",
-					 "api/categories", "api/categories/{categoryId}").hasAuthority("ROLE_ADMIN").
-			requestMatchers("/register", "").hasAuthority("ROLE_USER").
-//			requestMatchers(/**rutitas nuevas**/).hasAuthority("ROLE_USER").
-			requestMatchers("/login","api/categories/{categoryId}/products").permitAll();
-			return http.build();
-		}
-	
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		
+		http.csrf().disable().
+		addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
+		authorizeHttpRequests((requests) -> requests.
+				requestMatchers("/admin/**").hasRole("ROLE_ADMIN").
+				requestMatchers("/user/**").hasRole("ROLE_USER").
+				requestMatchers("/**").permitAll().anyRequest().authenticated());
+		return http.build();
+	}
+
 	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 }
