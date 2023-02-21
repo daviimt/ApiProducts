@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Product;
+import com.example.demo.entity.User;
 import com.example.demo.models.ProductDTO;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
+import com.example.demo.serviceImpl.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -29,6 +32,10 @@ public class RestProduct {
 	@Autowired
 	@Qualifier("categoryService")
 	private CategoryService categoryService;
+	
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
 
 	@GetMapping("/user/products")
 	public ResponseEntity<?> getProducts() {
@@ -115,5 +122,9 @@ public class RestProduct {
 			return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping("/addFav/{id}")
+	private User addFav(@RequestParam User user) {
+		return userService.register(user);
+	}
 	
 }
