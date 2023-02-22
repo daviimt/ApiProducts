@@ -66,9 +66,10 @@ public class UserService implements UserDetailsService {
 
 	public com.example.demo.entity.User addFav(int id,String username) {
 		com.example.demo.entity.User u= findUser(username);
-		
 		List<Integer> list = u.getListFavs();
-		list.add(id);
+		if(!list.contains(id)) {
+			list.add(id);
+		}
 		u.setListFavs(list);
 		return userRepository.save(u);
 	}

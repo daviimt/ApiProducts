@@ -133,9 +133,7 @@ public class RestProduct {
 	private ResponseEntity<?> addFav(@PathVariable int id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println(username);
         User user = userService.addFav(id,username);
-        System.out.println(user.getListFavs());
 		return ResponseEntity.ok().build();
 	}
 	
