@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Category;
 import com.example.demo.models.CategoryDTO;
+import com.example.demo.models.ProductDTO;
 import com.example.demo.service.CategoryService;
 
 @RestController
@@ -36,6 +39,18 @@ public class RestCategory {
 		}
 		else
 			return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/admin/categories")
+	public ResponseEntity<?> getCategories() {
+		boolean exist = categoryService.listAllCategories()!=null;
+		if(exist) {
+			List<CategoryDTO> category=categoryService.listAllCategories();
+			return ResponseEntity.ok(category);
+		}
+		else
+			return ResponseEntity.noContent().build();
+
 	}
 
 	//POST Crea una nueva categoría

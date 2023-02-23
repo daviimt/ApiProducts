@@ -23,7 +23,7 @@ public class SecurityConfig {
 		authorizeHttpRequests((requests) -> requests.
 				requestMatchers("/api/admin/**").hasRole("ADMIN").
 				requestMatchers("/api/user/**").hasRole("USER").
-				requestMatchers("/**").permitAll().anyRequest().authenticated());
+				requestMatchers("/**", "/api/all/**").permitAll().anyRequest().authenticated());
 		return http.build();
 	}
 

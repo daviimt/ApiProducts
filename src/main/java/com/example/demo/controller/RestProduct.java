@@ -44,7 +44,7 @@ public class RestProduct {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	@GetMapping("/user/products")
+	@GetMapping("/all/products")
 	public ResponseEntity<?> getProducts() {
 		boolean exist = productService.listAllProducts()!=null;
 		if(exist) {
