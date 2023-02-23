@@ -21,8 +21,8 @@ public class SecurityConfig {
 		http.csrf().disable().
 		addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
 		authorizeHttpRequests((requests) -> requests.
-				requestMatchers("/admin/**").hasRole("ROLE_ADMIN").
-				requestMatchers("/user/**").hasRole("ROLE_USER").
+				requestMatchers("/api/admin/**").hasRole("ADMIN").
+				requestMatchers("/api/user/**").hasRole("USER").
 				requestMatchers("/**").permitAll().anyRequest().authenticated());
 		return http.build();
 	}
