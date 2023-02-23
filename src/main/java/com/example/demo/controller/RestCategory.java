@@ -41,7 +41,7 @@ public class RestCategory {
 			return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/admin/categories")
+	@GetMapping("/all/categories")
 	public ResponseEntity<?> getCategories() {
 		boolean exist = categoryService.listAllCategories()!=null;
 		if(exist) {
