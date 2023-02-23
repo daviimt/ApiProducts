@@ -55,7 +55,6 @@ public class UserController {
 		String secretKey = "mySecretKey";
 		com.example.demo.entity.User u=userService.findUser(username);
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(u.getRole());
-		System.out.println(grantedAuthorities);
 
 		String token = Jwts.builder().setId("softtekJWT").setSubject(username)
 				.claim("authorities",
