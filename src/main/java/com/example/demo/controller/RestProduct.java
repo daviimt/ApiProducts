@@ -57,7 +57,7 @@ public class RestProduct {
 	}
 	
 	// GET Recupera el producto correspondiente a ese id
-	@GetMapping("/admin/products/{productId}")
+	@GetMapping("/all/products/{productId}")
 	public ResponseEntity<?> getProductResp(@PathVariable int productId) {
 		boolean exist = productService.findProductById(productId)!=null;
 		if(exist) {
