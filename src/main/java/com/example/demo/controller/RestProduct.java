@@ -137,4 +137,13 @@ public class RestProduct {
 		return ResponseEntity.ok().build();
 	}
 	
+	@GetMapping("/user/getFavs")
+	private ResponseEntity<?> getFavs() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        List<Integer> listFavs = userService.getFavs(username);
+        System.out.println(listFavs);
+		return ResponseEntity.ok(listFavs);
+	}
+	
 }
