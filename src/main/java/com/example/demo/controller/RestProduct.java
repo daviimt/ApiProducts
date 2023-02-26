@@ -137,6 +137,14 @@ public class RestProduct {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PutMapping("/user/deleteFav/{id}")
+	private ResponseEntity<?> deleteFav(@PathVariable int id) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.deleteFav(id,username);
+		return ResponseEntity.ok().build();
+	}
+	
 	@GetMapping("/user/getFavs")
 	private ResponseEntity<?> getFavs() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
